@@ -9,7 +9,7 @@ export type Categoria = {
 
 export const CATEGORIAS: Categoria[] = [
   { label: "Alimentação",  value: "alimentacao",  icone: Utensils,      cor: "#F59E0B" },
-  { label: "Educação",     value: "educacao",     icone: GraduationCap, cor: "#6C63FF" },
+  { label: "Educação",     value: "educacao",     icone: GraduationCap, cor: "#8B5CF6" },
   { label: "Investimentos",value: "investimentos",icone: TrendingUp,    cor: "#22C55E" },
   { label: "Lazer",        value: "lazer",        icone: Gamepad2,      cor: "#EC4899" },
   { label: "Moradia",      value: "moradia",      icone: Home,          cor: "#3B82F6" },

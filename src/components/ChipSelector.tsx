@@ -30,7 +30,7 @@ export default function ChipSelector({ label, opcoes, valor, onChange }: Props) 
                   : "border-border bg-white text-text-soft"
               }`}
             >
-              <Icon size={13} color={isSelected ? "#6C63FF" : op.cor} />
+              <Icon size={13} color={isSelected ? "#10B981" : op.cor} />
               {op.label}
             </button>
           );

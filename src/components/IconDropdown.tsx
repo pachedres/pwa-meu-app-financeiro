@@ -62,7 +62,7 @@ export default function IconDropdown({ label, placeholder, opcoes, valor, onChan
                 valor === op.value ? "bg-primary-light text-primary font-semibold" : "text-text-main hover:bg-fundo"
               }`}
             >
-              <op.icone size={16} color={valor === op.value ? "#6C63FF" : op.cor} />
+              <op.icone size={16} color={valor === op.value ? "#10B981" : op.cor} />
               {op.label}
             </button>
           ))}

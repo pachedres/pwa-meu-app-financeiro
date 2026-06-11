@@ -186,7 +186,7 @@ export default function Lancamentos() {
                 }`}
               >
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: cat.cor + "22" }}>
-                  <Icon size={16} color={isSelected ? "#6C63FF" : cat.cor} />
+                  <Icon size={16} color={isSelected ? "#10B981" : cat.cor} />
                 </div>
                 <span className={`text-[10px] mt-1 font-medium ${isSelected ? "text-primary" : "text-text-secondary"}`}>
                   {cat.label}

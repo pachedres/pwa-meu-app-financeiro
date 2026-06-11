@@ -70,7 +70,7 @@ export default function Extrato() {
             filtrosAtivos ? "border-primary bg-primary-light" : "border-border"
           }`}
         >
-          <SlidersHorizontal size={20} color={filtrosAtivos ? "#6C63FF" : "#888"} />
+          <SlidersHorizontal size={20} color={filtrosAtivos ? "#10B981" : "#888"} />
           {filtrosAtivos && <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />}
         </button>
       </div>

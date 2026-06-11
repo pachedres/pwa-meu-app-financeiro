@@ -5,7 +5,7 @@ export type Banco = { label: string; value: string; icone: LucideIcon; cor: stri
 
 export const FORMAS_PAGAMENTO: FormaPagamento[] = [
   { label: "PIX",      value: "pix",      icone: Zap,              cor: "#00BDAE" },
-  { label: "Crédito",  value: "credito",  icone: CreditCard,       cor: "#6C63FF" },
+  { label: "Crédito",  value: "credito",  icone: CreditCard,       cor: "#8B5CF6" },
   { label: "Débito",   value: "debito",   icone: CreditCard,       cor: "#22C55E" },
   { label: "TED",      value: "ted",      icone: ArrowLeftRight,   cor: "#F59E0B" },
   { label: "Boleto",   value: "boleto",   icone: FileText,         cor: "#888888" },

@@ -9,7 +9,7 @@ import CardsResumo from "@/components/CardsResumo";
 
 dayjs.locale("pt-br");
 
-const CORES_GRAFICO = ["#6C63FF","#EF4444","#22C55E","#FF9800","#2196F3","#E91E63","#009688","#FF5722","#9C27B0","#607D8B"];
+const CORES_GRAFICO = ["#10B981","#EF4444","#22C55E","#FF9800","#2196F3","#E91E63","#009688","#FF5722","#9C27B0","#607D8B"];
 
 export default function Relatorios() {
   const [mes, setMes] = useState(dayjs());

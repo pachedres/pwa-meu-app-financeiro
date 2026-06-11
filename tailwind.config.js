@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#6C63FF",
-        "primary-light": "#f0eeff",
-        "primary-soft": "#f8f7ff",
+        primary: "#10B981",
+        "primary-light": "#d1fae5",
+        "primary-soft": "#ecfdf5",
         success: "#22C55E",
         "success-light": "#f0fdf4",
         "success-border": "#bbf7d0",
@@ -15,7 +15,7 @@ export default {
         "danger-border": "#fecaca",
         warning: "#F59E0B",
         "warning-light": "#fffbeb",
-        fundo: "#F2F2F7",
+        fundo: "#f0fdf4",
         cartao: "#ffffff",
         "text-main": "#1a1a2e",
         "text-secondary": "#555555",

@@ -13,7 +13,7 @@ export default defineConfig({
         name: "Meu App Financeiro",
         short_name: "Financeiro",
         description: "Controle suas finanças com facilidade",
-        theme_color: "#6C63FF",
+        theme_color: "#10B981",
         background_color: "#F2F2F7",
         display: "standalone",
         orientation: "portrait",
