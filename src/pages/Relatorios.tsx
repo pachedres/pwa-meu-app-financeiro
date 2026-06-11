@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
@@ -112,11 +112,15 @@ export default function Relatorios() {
                 <p className="text-sm font-bold text-text-main mb-3">Detalhamento</p>
                 {dadosFiltrados.map((item, index) => {
                   const cat = CATEGORIAS.find((c) => c.value === item.categoria);
+                  const RIcon = cat?.icone ?? Package;
+                  const rCor = cat?.cor ?? "#9CA3AF";
                   const percentual = totalAba > 0 ? (item.total / totalAba) * 100 : 0;
                   return (
                     <div key={index} className="flex items-center gap-2 py-2.5 border-b border-border-light last:border-0">
                       <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: CORES_GRAFICO[index % CORES_GRAFICO.length] }} />
-                      <span className="text-xl">{cat?.icone ?? "📦"}</span>
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: rCor + "22" }}>
+                        <RIcon size={15} color={rCor} />
+                      </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-text-main">{cat?.label ?? item.categoria}</p>
                         <p className="text-xs text-text-soft">{percentual.toFixed(1)}% do total</p>

@@ -1,12 +1,22 @@
 import { useState } from "react";
 import dayjs from "dayjs";
-import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { Trash2, ChevronDown, ChevronUp, Package } from "lucide-react";
 import { adicionarLancamento, adicionarLancamentoParcelado, deletarLancamento } from "@/lib/db";
-import { CATEGORIAS } from "@/constants/categorias";
+import { CATEGORIAS, type Categoria } from "@/constants/categorias";
 import { FORMAS_PAGAMENTO, BANCOS } from "@/constants/pagamentos";
 import { useLancamentos } from "@/hooks/useLancamentos";
 import { agruparParcelas } from "@/utils/agruparParcelas";
-import Dropdown from "@/components/Dropdown";
+import IconDropdown from "@/components/IconDropdown";
+
+function CatIcone({ cat, size = 18 }: { cat?: Categoria; size?: number }) {
+  const Icon = cat?.icone ?? Package;
+  const cor = cat?.cor ?? "#9CA3AF";
+  return (
+    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: cor + "22" }}>
+      <Icon size={size} color={cor} />
+    </div>
+  );
+}
 
 function formatarValor(texto: string) {
   const soNumeros = texto.replace(/\D/g, "");
@@ -161,25 +171,31 @@ export default function Lancamentos() {
 
         <p className="text-xs font-semibold text-text-secondary mb-2">Categoria</p>
         <div className="grid grid-cols-3 gap-2 mb-4">
-          {CATEGORIAS.map((cat) => (
-            <button
-              type="button"
-              key={cat.value}
-              onClick={() => setCategoria(cat.value)}
-              className={`flex flex-col items-center p-2 rounded-lg border text-center transition-colors ${
-                categoria === cat.value ? "border-primary bg-primary-light" : "border-border bg-fundo"
-              }`}
-            >
-              <span className="text-xl">{cat.icone}</span>
-              <span className={`text-[10px] mt-1 font-medium ${categoria === cat.value ? "text-primary" : "text-text-secondary"}`}>
-                {cat.label}
-              </span>
-            </button>
-          ))}
+          {CATEGORIAS.map((cat) => {
+            const Icon = cat.icone;
+            const isSelected = categoria === cat.value;
+            return (
+              <button
+                type="button"
+                key={cat.value}
+                onClick={() => setCategoria(cat.value)}
+                className={`flex flex-col items-center p-2 rounded-lg border text-center transition-colors ${
+                  isSelected ? "border-primary bg-primary-light" : "border-border bg-fundo"
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: cat.cor + "22" }}>
+                  <Icon size={16} color={isSelected ? "#6C63FF" : cat.cor} />
+                </div>
+                <span className={`text-[10px] mt-1 font-medium ${isSelected ? "text-primary" : "text-text-secondary"}`}>
+                  {cat.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <Dropdown label="Forma de Pagamento" placeholder="Selecione..." opcoes={FORMAS_PAGAMENTO} valor={formaPagamento} onChange={setFormaPagamento} />
-        <Dropdown label="Banco" placeholder="Selecione..." opcoes={BANCOS} valor={banco} onChange={setBanco} />
+        <IconDropdown label="Forma de Pagamento" placeholder="Selecione..." opcoes={FORMAS_PAGAMENTO} valor={formaPagamento} onChange={setFormaPagamento} />
+        <IconDropdown label="Banco" placeholder="Selecione..." opcoes={BANCOS} valor={banco} onChange={setBanco} />
 
         {feedback && (
           <p className={`text-sm text-center mb-3 ${feedback.startsWith("✅") ? "text-success" : "text-danger"}`}>{feedback}</p>
@@ -206,7 +222,7 @@ export default function Lancamentos() {
             return (
               <div key={item.id} className="bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border border-border-light">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <span className="text-2xl">{cat?.icone ?? "📦"}</span>
+                  <CatIcone cat={cat} />
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-text-main truncate">{item.descricao}</p>
                     <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria} · {dayjs(item.data).format("DD/MM/YYYY")}</p>
@@ -236,7 +252,7 @@ export default function Lancamentos() {
                 className="w-full bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border-l-4 border-primary border-t border-r border-b border-border-light text-left"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <span className="text-2xl">{cat?.icone ?? "📦"}</span>
+                  <CatIcone cat={cat} />
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-text-main truncate">{item.descricaoBase}</p>
                     <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria} · {parcelasPagas}/{item.totalParcelas} parcelas</p>

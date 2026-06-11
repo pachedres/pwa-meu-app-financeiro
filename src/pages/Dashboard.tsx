@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Inbox } from "lucide-react";
+import { Inbox, Package } from "lucide-react";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { buscarTotaisPorMes, buscarLancamentosPorMes } from "@/lib/db";
@@ -18,7 +17,6 @@ function saudacao() {
 }
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [totais, setTotais] = useState({ receitas: 0, despesas: 0, saldo: 0 });
   const [lancamentos, setLancamentos] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -49,12 +47,6 @@ export default function Dashboard() {
           <p className="text-white/85 text-sm mb-0.5">{saudacao()} 👋</p>
           <p className="text-white text-xl font-bold capitalize">{mesAtual}</p>
         </div>
-        <button
-          onClick={() => navigate("/lancamentos")}
-          className="bg-white/20 border border-white/35 text-white font-bold text-sm px-4 py-2 rounded-full"
-        >
-          + Adicionar
-        </button>
       </div>
 
       <div className="-mt-4">
@@ -90,16 +82,20 @@ export default function Dashboard() {
             <div className="flex flex-col items-center pt-10 gap-2">
               <Inbox size={48} color="#bbb" />
               <p className="text-sm text-text-soft font-medium">Nenhum lançamento neste mês.</p>
-              <p className="text-xs text-text-faint">Toque em "+ Adicionar" para começar.</p>
+              <p className="text-xs text-text-faint">Use o botão + para adicionar um lançamento.</p>
             </div>
           ) : (
             <div className="px-4 flex flex-col gap-2 pb-6">
               {lancamentos.slice(0, 10).map((item) => {
                 const cat = CATEGORIAS.find((c) => c.value === item.categoria);
+                const Icon = cat?.icone ?? Package;
+                const cor = cat?.cor ?? "#9CA3AF";
                 return (
                   <div key={item.id} className="bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border border-border-light">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">{cat?.icone ?? "📦"}</span>
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: cor + "22" }}>
+                        <Icon size={18} color={cor} />
+                      </div>
                       <div>
                         <p className="text-sm font-semibold text-text-main">{item.descricao}</p>
                         <p className="text-xs text-text-soft mt-0.5">

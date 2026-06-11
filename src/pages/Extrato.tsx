@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SlidersHorizontal, ChevronDown, ChevronUp, X } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, ChevronUp, X, Package } from "lucide-react";
 import dayjs from "dayjs";
 import { CATEGORIAS } from "@/constants/categorias";
 import { useLancamentos } from "@/hooks/useLancamentos";
@@ -90,12 +90,19 @@ export default function Extrato() {
         <div className="px-4 flex flex-col gap-2 pb-6">
           {exibidos.map((item: any) => {
             const cat = CATEGORIAS.find((c) => c.value === item.categoria);
+            const CatIcon = cat?.icone ?? Package;
+            const catCor = cat?.cor ?? "#9CA3AF";
+            const catBadge = (
+              <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: catCor + "22" }}>
+                <CatIcon size={18} color={catCor} />
+              </div>
+            );
             if (item.avulso) {
               return (
                 <div key={item.id} className="bg-white rounded-xl px-4 py-3 shadow-sm border border-border-light">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-2xl">{cat?.icone ?? "📦"}</span>
+                      {catBadge}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-text-main truncate">{item.descricao}</p>
                         <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria}</p>
@@ -126,7 +133,7 @@ export default function Extrato() {
                 >
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-2xl">{cat?.icone ?? "📦"}</span>
+                      {catBadge}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-text-main truncate">{item.descricaoBase}</p>
                         <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria}</p>
@@ -212,15 +219,20 @@ export default function Extrato() {
                     onClick={() => setRascCategoria("")}
                     className={`px-3.5 py-1.5 rounded-full border text-sm font-semibold ${rascCategoria === "" ? "bg-primary border-primary text-white" : "bg-fundo border-border text-text-secondary"}`}
                   >Todas</button>
-                  {CATEGORIAS.map((cat) => (
-                    <button
-                      key={cat.value}
-                      onClick={() => setRascCategoria(cat.value)}
-                      className={`px-3.5 py-1.5 rounded-full border text-sm font-semibold ${rascCategoria === cat.value ? "bg-primary border-primary text-white" : "bg-fundo border-border text-text-secondary"}`}
-                    >
-                      {cat.icone} {cat.label}
-                    </button>
-                  ))}
+                  {CATEGORIAS.map((cat) => {
+                    const FilterIcon = cat.icone;
+                    const isSelected = rascCategoria === cat.value;
+                    return (
+                      <button
+                        key={cat.value}
+                        onClick={() => setRascCategoria(cat.value)}
+                        className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-sm font-semibold ${isSelected ? "bg-primary border-primary text-white" : "bg-fundo border-border text-text-secondary"}`}
+                      >
+                        <FilterIcon size={13} color={isSelected ? "#fff" : cat.cor} />
+                        {cat.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
               <button onClick={aplicarFiltros} className="w-full bg-primary text-white font-bold py-3.5 rounded-xl mt-2">
