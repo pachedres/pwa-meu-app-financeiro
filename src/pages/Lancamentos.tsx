@@ -129,7 +129,7 @@ export default function Lancamentos() {
           value={data}
           max={dayjs().format("YYYY-MM-DD")}
           onChange={(e) => setData(e.target.value)}
-          className="w-full border border-border rounded-lg px-3 py-3 mb-3 text-sm text-text-main bg-fundo focus:outline-none focus:border-primary"
+          className="w-full min-w-0 border border-border rounded-lg px-3 py-3 mb-3 text-sm text-text-main bg-fundo focus:outline-none focus:border-primary"
         />
 
         <div className="flex items-center justify-between mb-3 py-1">
@@ -140,9 +140,9 @@ export default function Lancamentos() {
           <button
             type="button"
             onClick={() => setParcelado(!parcelado)}
-            className={`w-12 h-6 rounded-full transition-colors relative ${parcelado ? "bg-primary" : "bg-border"}`}
+            className={`w-12 h-6 rounded-full transition-colors relative overflow-hidden ${parcelado ? "bg-primary" : "bg-border"}`}
           >
-            <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${parcelado ? "translate-x-6" : "translate-x-0.5"}`} />
+            <span className={`absolute top-0.5 left-0 w-5 h-5 rounded-full bg-white shadow transition-transform ${parcelado ? "translate-x-6" : "translate-x-0.5"}`} />
           </button>
         </div>
 
