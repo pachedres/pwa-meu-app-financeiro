@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import Layout from "@/components/Layout";
+import AtualizacaoPrompt from "@/components/AtualizacaoPrompt";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Lancamentos from "@/pages/Lancamentos";
@@ -23,6 +24,7 @@ function RotaProtegida({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <AtualizacaoPrompt />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
