@@ -121,7 +121,7 @@ export default function Extrato() {
 
             const expandido = expandidos.has(item.chave);
             const parcelasPagas = item.parcelas.filter((p: any) =>
-              dayjs(p.data).isBefore(dayjs(), "month") || dayjs(p.data).isSame(dayjs(), "month")
+              dayjs(p.data).isBefore(dayjs(), "month")
             ).length;
             const totalParcelado = item.parcelas.reduce((s: number, p: any) => s + Number(p.valor), 0);
 
@@ -157,7 +157,7 @@ export default function Extrato() {
                   </div>
                 </button>
                 {expandido && item.parcelas.map((parcela: any) => {
-                  const isPago = dayjs(parcela.data).isBefore(dayjs(), "month") || dayjs(parcela.data).isSame(dayjs(), "month");
+                  const isPago = dayjs(parcela.data).isBefore(dayjs(), "month");
                   return (
                     <div key={parcela.id} className={`mx-4 mb-0.5 px-3 py-2.5 rounded-lg flex justify-between items-center ${isPago ? "bg-success-light" : "bg-primary-soft"}`}>
                       <p className="text-xs text-text-secondary flex-1">{parcela.descricao}</p>
