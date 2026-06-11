@@ -124,13 +124,15 @@ export default function Lancamentos() {
           inputMode="numeric"
           onChange={(e) => setValor(formatarValor(e.target.value))}
         />
-        <input
-          type="date"
-          value={data}
-          max={dayjs().format("YYYY-MM-DD")}
-          onChange={(e) => setData(e.target.value)}
-          className="w-full min-w-0 border border-border rounded-lg px-3 py-3 mb-3 text-sm text-text-main bg-fundo focus:outline-none focus:border-primary"
-        />
+        <div className="w-full overflow-hidden mb-3">
+          <input
+            type="date"
+            value={data}
+            max={dayjs().format("YYYY-MM-DD")}
+            onChange={(e) => setData(e.target.value)}
+            className="w-full min-w-0 border border-border rounded-lg px-3 py-3 text-sm text-text-main bg-fundo focus:outline-none focus:border-primary"
+          />
+        </div>
 
         <div className="flex items-center justify-between mb-3 py-1">
           <div>
