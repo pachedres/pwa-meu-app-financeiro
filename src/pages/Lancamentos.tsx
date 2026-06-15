@@ -110,7 +110,7 @@ export default function Lancamentos() {
         </button>
       </div>
 
-      <form onSubmit={salvar} className="bg-white rounded-xl mx-4 p-4 shadow-sm border border-border-light overflow-hidden">
+      <form onSubmit={salvar} className="bg-white rounded-xl mx-4 p-4 shadow-sm border border-border-light">
         <input
           className="w-full border border-border rounded-lg px-3 py-3 mb-3 text-sm text-text-main focus:outline-none focus:border-primary"
           placeholder="Descrição"
