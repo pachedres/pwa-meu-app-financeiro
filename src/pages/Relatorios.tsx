@@ -55,6 +55,17 @@ export default function Relatorios() {
 
   const totalAba = aba === "despesas" ? totais.despesas : totais.receitas;
 
+  const fpMap: Record<string, number> = {};
+  const bancoMap: Record<string, number> = {};
+  dadosFiltrados.forEach((cat) => {
+    cat.items.forEach((item: any) => {
+      if (item.forma_pagamento) fpMap[item.forma_pagamento] = (fpMap[item.forma_pagamento] ?? 0) + Number(item.valor);
+      if (item.banco) bancoMap[item.banco] = (bancoMap[item.banco] ?? 0) + Number(item.valor);
+    });
+  });
+  const porFP = FORMAS_PAGAMENTO.filter((f) => fpMap[f.value]).map((f) => ({ ...f, total: fpMap[f.value] }));
+  const porBanco = BANCOS.filter((b) => bancoMap[b.value]).map((b) => ({ ...b, total: bancoMap[b.value] }));
+
   return (
     <div className="bg-fundo min-h-full">
       <div className="bg-primary px-4 pt-10 pb-10 flex justify-between items-center">
@@ -118,6 +129,50 @@ export default function Relatorios() {
                   ))}
                 </div>
               </div>
+
+              {(porFP.length > 0 || porBanco.length > 0) && (
+                <div className="bg-white rounded-xl mx-4 mb-3 p-4 shadow-sm border border-border-light">
+                  <p className="text-sm font-bold text-text-main mb-3">Meios de Pagamento</p>
+
+                  {porFP.length > 0 && (
+                    <>
+                      <p className="text-[10px] font-semibold text-text-soft uppercase tracking-wide mb-2">Forma</p>
+                      <div className="flex flex-col gap-2 mb-3">
+                        {porFP.sort((a, b) => b.total - a.total).map((fp) => (
+                          <div key={fp.value} className="flex items-center gap-2.5">
+                            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: fp.cor + "22" }}>
+                              <fp.icone size={14} color={fp.cor} />
+                            </div>
+                            <span className="flex-1 text-sm text-text-main">{fp.label}</span>
+                            <span className={`text-sm font-bold ${aba === "receitas" ? "text-success" : "text-danger"}`}>
+                              R$ {fp.total.toFixed(2)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  {porBanco.length > 0 && (
+                    <>
+                      <p className="text-[10px] font-semibold text-text-soft uppercase tracking-wide mb-2">Banco</p>
+                      <div className="flex flex-col gap-2">
+                        {porBanco.sort((a, b) => b.total - a.total).map((banco) => (
+                          <div key={banco.value} className="flex items-center gap-2.5">
+                            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: banco.cor + "22" }}>
+                              <banco.icone size={14} color={banco.cor} />
+                            </div>
+                            <span className="flex-1 text-sm text-text-main">{banco.label}</span>
+                            <span className={`text-sm font-bold ${aba === "receitas" ? "text-success" : "text-danger"}`}>
+                              R$ {banco.total.toFixed(2)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
 
               <div className="bg-white rounded-xl mx-4 mb-6 p-4 shadow-sm border border-border-light">
                 <p className="text-sm font-bold text-text-main mb-3">Detalhamento</p>
