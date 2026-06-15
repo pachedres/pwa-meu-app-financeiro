@@ -60,15 +60,16 @@ export async function buscarTotaisPorMes(
 export async function buscarTotaisPorCategoria(
   mes: string,
   ano: string,
-): Promise<{ categoria: string; tipo: string; total: number }[]> {
+): Promise<{ categoria: string; tipo: string; total: number; items: any[] }[]> {
   const dados = await buscarLancamentosPorMes(mes, ano);
-  const mapa: Record<string, { categoria: string; tipo: string; total: number }> = {};
+  const mapa: Record<string, { categoria: string; tipo: string; total: number; items: any[] }> = {};
   dados.forEach((item) => {
     const chave = `${item.categoria}_${item.tipo}`;
     if (!mapa[chave]) {
-      mapa[chave] = { categoria: item.categoria, tipo: item.tipo, total: 0 };
+      mapa[chave] = { categoria: item.categoria, tipo: item.tipo, total: 0, items: [] };
     }
     mapa[chave].total += Number(item.valor);
+    mapa[chave].items.push(item);
   });
   return Object.values(mapa).sort((a, b) => b.total - a.total);
 }
