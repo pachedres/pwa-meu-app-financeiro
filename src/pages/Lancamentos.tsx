@@ -1,6 +1,7 @@
 import { useState } from "react";
 import dayjs from "dayjs";
-import { Trash2, ChevronDown, ChevronUp, Package } from "lucide-react";
+import { Trash2, Pencil, ChevronDown, ChevronUp, Package } from "lucide-react";
+import EditarLancamentoModal from "@/components/EditarLancamentoModal";
 import { adicionarLancamento, adicionarLancamentoParcelado, deletarLancamento } from "@/lib/db";
 import { CATEGORIAS, type Categoria } from "@/constants/categorias";
 import { FORMAS_PAGAMENTO, BANCOS } from "@/constants/pagamentos";
@@ -39,6 +40,7 @@ export default function Lancamentos() {
   const [banco, setBanco] = useState("");
   const [salvando, setSalvando] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [editando, setEditando] = useState<any>(null);
 
   const lancamentosAgrupados = agruparParcelas(lancamentos);
 
@@ -91,6 +93,7 @@ export default function Lancamentos() {
 
   return (
     <div className="bg-fundo min-h-full pb-6">
+      <EditarLancamentoModal lancamento={editando} onClose={() => setEditando(null)} onSalvo={recarregar} />
       <div className="flex gap-3 p-4">
         <button
           onClick={() => setTipo("receita")}
@@ -230,12 +233,15 @@ export default function Lancamentos() {
                     <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria} · {dayjs(item.data).format("DD/MM/YYYY")}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 ml-2 shrink-0">
+                <div className="flex items-center gap-1 ml-2 shrink-0">
                   <span className={`text-sm font-bold ${item.tipo === "receita" ? "text-success" : "text-danger"}`}>
                     {item.tipo === "receita" ? "+" : "-"} R$ {Number(item.valor).toFixed(2)}
                   </span>
+                  <button onClick={() => setEditando(item)} className="text-text-faint hover:text-primary p-1">
+                    <Pencil size={14} />
+                  </button>
                   <button onClick={() => deletar(item.id)} className="text-text-faint hover:text-danger p-1">
-                    <Trash2 size={15} />
+                    <Trash2 size={14} />
                   </button>
                 </div>
               </div>
@@ -277,9 +283,12 @@ export default function Lancamentos() {
                 return (
                   <div key={parcela.id} className={`mx-4 mb-0.5 px-3 py-2.5 rounded-lg flex justify-between items-center ${isPago ? "bg-success-light" : "bg-primary-soft"}`}>
                     <p className="text-xs text-text-secondary">{parcela.descricao}</p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <p className="text-xs text-text-soft">{dayjs(parcela.data).format("MM/YYYY")}</p>
                       {isPago && <span className="text-xs text-success font-bold">✓</span>}
+                      <button onClick={(e) => { e.stopPropagation(); setEditando(parcela); }} className="text-text-faint hover:text-primary p-1">
+                        <Pencil size={12} />
+                      </button>
                     </div>
                   </div>
                 );

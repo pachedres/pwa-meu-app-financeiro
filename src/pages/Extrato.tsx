@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { SlidersHorizontal, ChevronDown, ChevronUp, X, Package } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, ChevronUp, X, Package, Pencil } from "lucide-react";
+import EditarLancamentoModal from "@/components/EditarLancamentoModal";
 import dayjs from "dayjs";
 import { CATEGORIAS } from "@/constants/categorias";
 import { useLancamentos } from "@/hooks/useLancamentos";
@@ -8,7 +9,8 @@ import { agruparParcelas } from "@/utils/agruparParcelas";
 type FiltroTipo = "todos" | "receita" | "despesa";
 
 export default function Extrato() {
-  const { lancamentos, carregando } = useLancamentos();
+  const { lancamentos, carregando, recarregar } = useLancamentos();
+  const [editando, setEditando] = useState<any>(null);
   const [expandidos, setExpandidos] = useState<Set<string>>(new Set());
   const [filtroAberto, setFiltroAberto] = useState(false);
   const [busca, setBusca] = useState("");
@@ -57,6 +59,7 @@ export default function Extrato() {
 
   return (
     <div className="bg-fundo min-h-full">
+      <EditarLancamentoModal lancamento={editando} onClose={() => setEditando(null)} onSalvo={recarregar} />
       <div className="flex gap-2.5 p-4 pb-2">
         <input
           className="flex-1 bg-white border-2 border-border rounded-xl px-3.5 py-3 text-sm text-text-main placeholder:text-text-faint focus:outline-none focus:border-primary shadow-sm"
@@ -108,11 +111,16 @@ export default function Extrato() {
                         <p className="text-xs text-text-soft mt-0.5">{cat?.label ?? item.categoria}</p>
                       </div>
                     </div>
-                    <div className="text-right ml-2 shrink-0">
-                      <p className={`text-sm font-bold ${item.tipo === "receita" ? "text-success" : "text-danger"}`}>
-                        {item.tipo === "receita" ? "+" : "-"} R$ {Number(item.valor).toFixed(2)}
-                      </p>
-                      <p className="text-[10px] text-text-faint mt-0.5">{dayjs(item.data).format("DD/MM/YYYY")}</p>
+                    <div className="flex items-center gap-1 ml-2 shrink-0">
+                      <div className="text-right">
+                        <p className={`text-sm font-bold ${item.tipo === "receita" ? "text-success" : "text-danger"}`}>
+                          {item.tipo === "receita" ? "+" : "-"} R$ {Number(item.valor).toFixed(2)}
+                        </p>
+                        <p className="text-[10px] text-text-faint mt-0.5">{dayjs(item.data).format("DD/MM/YYYY")}</p>
+                      </div>
+                      <button onClick={() => setEditando(item)} className="text-text-faint hover:text-primary p-1 ml-1">
+                        <Pencil size={14} />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -161,10 +169,13 @@ export default function Extrato() {
                   return (
                     <div key={parcela.id} className={`mx-4 mb-0.5 px-3 py-2.5 rounded-lg flex justify-between items-center ${isPago ? "bg-success-light" : "bg-primary-soft"}`}>
                       <p className="text-xs text-text-secondary flex-1">{parcela.descricao}</p>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <p className="text-xs font-semibold text-text-main">R$ {Number(parcela.valor).toFixed(2)}</p>
                         <p className="text-[10px] text-text-faint">{dayjs(parcela.data).format("MM/YYYY")}</p>
                         {isPago && <span className="text-[10px] text-success font-bold">✓ pago</span>}
+                        <button onClick={() => setEditando(parcela)} className="text-text-faint hover:text-primary p-0.5">
+                          <Pencil size={12} />
+                        </button>
                       </div>
                     </div>
                   );

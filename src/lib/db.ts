@@ -74,6 +74,14 @@ export async function buscarTotaisPorCategoria(
   return Object.values(mapa).sort((a, b) => b.total - a.total);
 }
 
+export async function editarLancamento(
+  id: string,
+  campos: { tipo: string; descricao: string; valor: number; categoria: string; data: string; forma_pagamento?: string | null; banco?: string | null }
+): Promise<void> {
+  const { error } = await supabase.from("lancamentos").update(campos).eq("id", id);
+  if (error) throw error;
+}
+
 export async function deletarLancamento(id: string): Promise<void> {
   const { error } = await supabase.from("lancamentos").delete().eq("id", id);
   if (error) throw error;
