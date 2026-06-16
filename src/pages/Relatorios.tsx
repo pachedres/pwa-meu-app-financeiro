@@ -70,7 +70,9 @@ export default function Relatorios() {
 
   return (
     <div className="bg-fundo min-h-full">
-      <div className="bg-primary px-4 pt-10 pb-10 flex justify-between items-center">
+      <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] px-4 pt-10 pb-10 flex justify-between items-center relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10" />
         <button onClick={() => setMes(mes.subtract(1, "month"))} className="p-2">
           <ChevronLeft size={26} color="#fff" />
         </button>

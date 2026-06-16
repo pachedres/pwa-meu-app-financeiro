@@ -9,18 +9,18 @@ export default function Layout() {
       <main className="flex-1 overflow-y-auto pb-20">
         <Outlet />
       </main>
-      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-cartao border-t border-border-light z-50">
+      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-border-light z-50">
         <div className="flex items-center justify-around h-16 px-2">
-          <TabItem to="/" icon={<Home size={22} />} label="Início" end />
-          <TabItem to="/extrato" icon={<List size={22} />} label="Extrato" />
+          <TabItem to="/" icon={<Home size={21} />} label="Início" end />
+          <TabItem to="/extrato" icon={<List size={21} />} label="Extrato" />
           <button
             onClick={() => navigate("/lancamentos")}
-            className="flex flex-col items-center justify-center w-14 h-14 -mt-5 rounded-full bg-primary shadow-lg text-white"
+            className="flex flex-col items-center justify-center w-14 h-14 -mt-5 rounded-full bg-gradient-to-br from-emerald-600 to-primary shadow-xl text-white"
           >
             <Plus size={26} />
           </button>
-          <TabItem to="/relatorios" icon={<BarChart2 size={22} />} label="Relatórios" />
-          <TabItem to="/perfil" icon={<User size={22} />} label="Perfil" />
+          <TabItem to="/relatorios" icon={<BarChart2 size={21} />} label="Relatórios" />
+          <TabItem to="/perfil" icon={<User size={21} />} label="Perfil" />
         </div>
       </nav>
     </div>
@@ -33,13 +33,13 @@ function TabItem({ to, icon, label, end }: { to: string; icon: React.ReactNode; 
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors ${
-          isActive ? "text-primary" : "text-text-soft"
+        `flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${
+          isActive ? "text-primary bg-primary-light" : "text-text-soft"
         }`
       }
     >
       {icon}
-      <span className="text-[10px] font-medium">{label}</span>
+      <span className="text-[10px] font-semibold">{label}</span>
     </NavLink>
   );
 }
