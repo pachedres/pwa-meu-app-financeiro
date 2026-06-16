@@ -94,6 +94,16 @@ export default function Lancamentos() {
   return (
     <div className="bg-fundo min-h-full pb-6">
       <EditarLancamentoModal lancamento={editando} onClose={() => setEditando(null)} onSalvo={recarregar} />
+
+      <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] px-5 pt-10 pb-6 relative overflow-hidden mb-1">
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10" />
+        <div className="relative">
+          <p className="text-white text-xl font-bold">Lançamentos</p>
+          <p className="text-white/60 text-sm mt-0.5">Registre suas receitas e despesas</p>
+        </div>
+      </div>
+
       <div className="flex gap-3 p-4">
         <button
           onClick={() => setTipo("receita")}
@@ -221,11 +231,11 @@ export default function Lancamentos() {
       )}
 
       <div className="mx-4 flex flex-col gap-2">
-        {lancamentosAgrupados.map((item: any) => {
+        {lancamentosAgrupados.slice(0, 10).map((item: any) => {
           const cat = categoriaLabel(item.categoria);
           if (item.avulso) {
             return (
-              <div key={item.id} className="bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border border-border-light">
+              <div key={item.id} className="bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border border-border-light border-l-4" style={{ borderLeftColor: item.tipo === "receita" ? "#22C55E" : "#EF4444" }}>
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <CatIcone cat={cat} />
                   <div className="min-w-0">
@@ -257,7 +267,8 @@ export default function Lancamentos() {
             <div key={item.chave}>
               <button
                 onClick={() => toggleExpandir(item.chave)}
-                className="w-full bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border-l-4 border-primary border-t border-r border-b border-border-light text-left"
+                className="w-full bg-white rounded-xl px-4 py-3 flex justify-between items-center shadow-sm border-l-4 border-t border-r border-b border-border-light text-left"
+                style={{ borderLeftColor: item.tipo === "receita" ? "#22C55E" : "#EF4444" }}
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <CatIcone cat={cat} />

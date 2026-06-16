@@ -6,7 +6,7 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col h-screen bg-fundo max-w-md mx-auto relative">
-      <main className="flex-1 overflow-y-auto pb-20">
+      <main className="flex-1 overflow-y-auto overscroll-y-none pb-20">
         <Outlet />
       </main>
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-border-light z-50">

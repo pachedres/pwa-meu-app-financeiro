@@ -20,12 +20,16 @@ export default function Perfil() {
 
   return (
     <div className="bg-fundo min-h-full">
-      <div className="bg-primary flex flex-col items-center pt-12 pb-10 gap-1.5">
-        <div className="w-18 h-18 w-[72px] h-[72px] rounded-full bg-white/25 border-2 border-white/50 flex items-center justify-center mb-1">
-          <span className="text-white text-3xl font-bold">{iniciais}</span>
+      <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] flex flex-col items-center pt-12 pb-10 gap-1.5 relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10" />
+        <div className="relative flex flex-col items-center gap-1.5">
+          <div className="w-[72px] h-[72px] rounded-full bg-white/25 border-2 border-white/50 flex items-center justify-center mb-1">
+            <span className="text-white text-3xl font-bold">{iniciais}</span>
+          </div>
+          <p className="text-white text-xl font-bold">{nomeExibido}</p>
+          <p className="text-white/75 text-sm">{email}</p>
         </div>
-        <p className="text-white text-xl font-bold">{nomeExibido}</p>
-        <p className="text-white/75 text-sm">{email}</p>
       </div>
 
       <div className="mt-5 mx-4">

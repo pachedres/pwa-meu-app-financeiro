@@ -60,25 +60,37 @@ export default function Extrato() {
   return (
     <div className="bg-fundo min-h-full">
       <EditarLancamentoModal lancamento={editando} onClose={() => setEditando(null)} onSalvo={recarregar} />
-      <div className="flex gap-2.5 p-4 pb-2">
-        <input
-          className="flex-1 bg-white border-2 border-border rounded-xl px-3.5 py-3 text-sm text-text-main placeholder:text-text-faint focus:outline-none focus:border-primary shadow-sm"
-          placeholder="🔍 Buscar lançamento..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-        <button
-          onClick={abrirFiltro}
-          className={`bg-white border-2 rounded-xl p-3 shadow-sm relative transition-colors ${
-            filtrosAtivos ? "border-primary bg-primary-light" : "border-border"
-          }`}
-        >
-          <SlidersHorizontal size={20} color={filtrosAtivos ? "#10B981" : "#888"} />
-          {filtrosAtivos && <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />}
-        </button>
+
+      <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] px-5 pt-10 pb-10 relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10" />
+        <div className="relative">
+          <p className="text-white text-xl font-bold">Extrato</p>
+          <p className="text-white/60 text-sm capitalize mt-0.5">{dayjs().format("MMMM [de] YYYY")}</p>
+        </div>
       </div>
 
-      <p className="text-xs text-text-soft mx-4 mb-3">
+      <div className="px-4 -mt-5 relative z-10 mb-1">
+        <div className="flex gap-2.5">
+          <input
+            className="flex-1 bg-white border-2 border-border rounded-xl px-3.5 py-3 text-sm text-text-main placeholder:text-text-faint focus:outline-none focus:border-primary shadow-sm"
+            placeholder="🔍 Buscar lançamento..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+          <button
+            onClick={abrirFiltro}
+            className={`bg-white border-2 rounded-xl p-3 shadow-sm relative transition-colors ${
+              filtrosAtivos ? "border-primary bg-primary-light" : "border-border"
+            }`}
+          >
+            <SlidersHorizontal size={20} color={filtrosAtivos ? "#10B981" : "#888"} />
+            {filtrosAtivos && <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />}
+          </button>
+        </div>
+      </div>
+
+      <p className="text-xs text-text-soft mx-4 mb-3 mt-3">
         {exibidos.length} lançamento{exibidos.length !== 1 ? "s" : ""}
       </p>
 
@@ -102,7 +114,7 @@ export default function Extrato() {
             );
             if (item.avulso) {
               return (
-                <div key={item.id} className="bg-white rounded-xl px-4 py-3 shadow-sm border border-border-light">
+                <div key={item.id} className="bg-white rounded-xl px-4 py-3 shadow-sm border border-border-light border-l-4" style={{ borderLeftColor: item.tipo === "receita" ? "#22C55E" : "#EF4444" }}>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       {catBadge}
@@ -137,7 +149,8 @@ export default function Extrato() {
               <div key={item.chave}>
                 <button
                   onClick={() => toggleExpandir(item.chave)}
-                  className="w-full bg-white rounded-xl px-4 py-3 shadow-sm border-l-4 border-primary border-t border-r border-b border-border-light text-left"
+                  className="w-full bg-white rounded-xl px-4 py-3 shadow-sm border-l-4 border-t border-r border-b border-border-light text-left"
+                  style={{ borderLeftColor: item.tipo === "receita" ? "#22C55E" : "#EF4444" }}
                 >
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
