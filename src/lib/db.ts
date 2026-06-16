@@ -74,6 +74,31 @@ export async function buscarTotaisPorCategoria(
   return Object.values(mapa).sort((a, b) => b.total - a.total);
 }
 
+export async function buscarTotaisUltimosMeses(qtd = 6): Promise<{ mes: string; receitas: number; despesas: number }[]> {
+  const inicio = dayjs().subtract(qtd - 1, "month").startOf("month").format("YYYY-MM-DD");
+  const fim = dayjs().endOf("month").format("YYYY-MM-DD");
+  const { data, error } = await supabase.from("lancamentos").select("tipo, valor, data").gte("data", inicio).lte("data", fim);
+  if (error) throw error;
+
+  const mapa: Record<string, { receitas: number; despesas: number }> = {};
+  for (let i = qtd - 1; i >= 0; i--) {
+    const key = dayjs().subtract(i, "month").format("YYYY-MM");
+    mapa[key] = { receitas: 0, despesas: 0 };
+  }
+  (data ?? []).forEach((item: any) => {
+    const key = dayjs(item.data).format("YYYY-MM");
+    if (mapa[key]) {
+      if (item.tipo === "receita") mapa[key].receitas += Number(item.valor);
+      else mapa[key].despesas += Number(item.valor);
+    }
+  });
+
+  return Object.entries(mapa).map(([key, v]) => ({
+    mes: dayjs(key + "-01").locale("pt-br").format("MMM").replace(".", ""),
+    ...v,
+  }));
+}
+
 export async function editarLancamento(
   id: string,
   campos: { tipo: string; descricao: string; valor: number; categoria: string; data: string; forma_pagamento?: string | null; banco?: string | null }

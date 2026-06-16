@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Package } from "lucide-react";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { buscarTotaisPorMes, buscarTotaisPorCategoria } from "@/lib/db";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, ReferenceLine } from "recharts";
+import { buscarTotaisPorMes, buscarTotaisPorCategoria, buscarTotaisUltimosMeses } from "@/lib/db";
 import { CATEGORIAS } from "@/constants/categorias";
 import { FORMAS_PAGAMENTO, BANCOS } from "@/constants/pagamentos";
 import CardsResumo from "@/components/CardsResumo";
@@ -18,6 +18,7 @@ export default function Relatorios() {
   const [porCategoria, setPorCategoria] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [aba, setAba] = useState<"despesas" | "receitas">("despesas");
+  const [comparativo, setComparativo] = useState<any[]>([]);
   const [expandidos, setExpandidos] = useState<Set<string>>(new Set());
 
   useEffect(() => { carregarDados(); }, [mes]);
@@ -27,9 +28,10 @@ export default function Relatorios() {
       setCarregando(true);
       const m = mes.format("MM");
       const a = mes.format("YYYY");
-      const [t, c] = await Promise.all([buscarTotaisPorMes(m, a), buscarTotaisPorCategoria(m, a)]);
+      const [t, c, comp] = await Promise.all([buscarTotaisPorMes(m, a), buscarTotaisPorCategoria(m, a), buscarTotaisUltimosMeses(6)]);
       setTotais(t);
       setPorCategoria(c);
+      setComparativo(comp);
       setExpandidos(new Set());
     } catch (e) {
       console.error(e);
@@ -89,6 +91,35 @@ export default function Relatorios() {
         </div>
       ) : (
         <>
+          {(() => {
+            const avgReceitas = comparativo.length ? comparativo.reduce((s, m) => s + m.receitas, 0) / comparativo.length : 0;
+            const avgDespesas = comparativo.length ? comparativo.reduce((s, m) => s + m.despesas, 0) / comparativo.length : 0;
+            return (
+              <div className="bg-white rounded-xl mx-4 mb-3 p-4 shadow-sm border border-border-light">
+                <p className="text-sm font-bold text-text-main mb-3">Últimos 6 Meses</p>
+                <ResponsiveContainer width="100%" height={180}>
+                  <BarChart data={comparativo} barCategoryGap="30%" barGap={3}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                    <XAxis dataKey="mes" tick={{ fontSize: 11, fill: "#888" }} axisLine={false} tickLine={false} />
+                    <YAxis hide />
+                    <Tooltip
+                      formatter={(v: number, name: string) => [`R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`, name === "receitas" ? "Receitas" : "Despesas"]}
+                      contentStyle={{ borderRadius: 10, fontSize: 12, border: "1px solid #f0f0f0" }}
+                    />
+                    <ReferenceLine y={avgReceitas} stroke="#10B981" strokeDasharray="4 3" strokeWidth={1.5} />
+                    <ReferenceLine y={avgDespesas} stroke="#EF4444" strokeDasharray="4 3" strokeWidth={1.5} />
+                    <Bar dataKey="receitas" fill="#10B981" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="despesas" fill="#EF4444" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+                <div className="flex justify-center gap-4 mt-2">
+                  <span className="flex items-center gap-1.5 text-xs text-text-soft"><span className="w-2.5 h-2.5 rounded-sm bg-success inline-block" />Receitas</span>
+                  <span className="flex items-center gap-1.5 text-xs text-text-soft"><span className="w-2.5 h-2.5 rounded-sm bg-danger inline-block" />Despesas</span>
+                </div>
+              </div>
+            );
+          })()}
+
           <div className="flex mx-4 mb-3 bg-white rounded-xl p-1 shadow-sm border border-border-light">
             {(["despesas", "receitas"] as const).map((t) => (
               <button
