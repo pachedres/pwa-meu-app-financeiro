@@ -52,9 +52,9 @@ export default function Dashboard() {
   return (
     <div className="bg-fundo min-h-full">
       <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] px-5 pt-10 pb-20 relative overflow-hidden">
-        <div className="absolute -top-8 -right-8 w-44 h-44 rounded-full bg-white/10" />
-        <div className="absolute top-20 -right-2 w-20 h-20 rounded-full bg-white/5" />
-        <div className="absolute -bottom-10 -left-6 w-36 h-36 rounded-full bg-black/10" />
+        <div className="absolute -top-8 -right-8 w-44 h-44 rounded-full bg-white/10 pointer-events-none" />
+        <div className="absolute top-20 -right-2 w-20 h-20 rounded-full bg-white/5 pointer-events-none" />
+        <div className="absolute -bottom-10 -left-6 w-36 h-36 rounded-full bg-black/10 pointer-events-none" />
 
         <div className="relative">
           <p className="text-white/80 text-sm">{saudacao()} 👋</p>

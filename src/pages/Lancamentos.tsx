@@ -96,8 +96,8 @@ export default function Lancamentos() {
       <EditarLancamentoModal lancamento={editando} onClose={() => setEditando(null)} onSalvo={recarregar} />
 
       <div className="bg-gradient-to-br from-[#065f46] to-[#10B981] px-5 pt-10 pb-6 relative overflow-hidden mb-1">
-        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
-        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10" />
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none" />
+        <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-black/10 pointer-events-none" />
         <div className="relative">
           <p className="text-white text-xl font-bold">Lançamentos</p>
           <p className="text-white/60 text-sm mt-0.5">Registre suas receitas e despesas</p>
